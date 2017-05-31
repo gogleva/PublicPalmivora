@@ -98,3 +98,12 @@ pheatmap(my_mat, annotation_col=df,
 
 dev.off()
 
+###
+#6.------
+#plot table with curated categories for the up-regulated secretome
+library(gridExtra)
+curated <- read.table("/home/anna/anna/Labjournal/Manuscripts/Marchantia_ARI_small_paper/particles/curated_up_secretome.csv", header = TRUE, sep = ',', check.names=FALSE)
+tiff("/home/anna/anna/Labjournal/Manuscripts/Marchantia_ARI_small_paper/PP_SECRETOME_CURATION.tiff", height=5, width=3, units='in', res=600)
+grid.table(curated, rows = NULL)
+dev.off()
+
