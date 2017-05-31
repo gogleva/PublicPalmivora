@@ -14,7 +14,7 @@ library(pheatmap)
 
 #1.-----
 #Preapare input datasets, we need raw counts and sample table only
-edata <- read.csv("/home/anna/anna/Labjournal/MarcAri/ARI_LILI_expression_table_and_annotation_tab.csv", header = FALSE, row.names = 1, sep = '\t') #TODO: remove paths!
+edata <- read.csv("expression.csv", header = FALSE, row.names = 1, sep = '\t') #TODO: remove paths!
 edata <- edata[-c(8:11)] #remove redundant columns
 names(edata) <- c('scaffold_id', 'start', 'stop', 'strand', 'annotation', 'AG_pred', 'ALI_pred', 'len', 'MZ', "NBIn6h","NBIn18h", "NBIn24h",
                   "NBIn30h", "NBIn48h", "NBIn72h", "MPIn1dA","MPIn1dB", "MPIn1dC", "MPIn2dA","MPIn2dB", "MPIn2dC", "MPIn3dA","MPIn3dB", "MPIn3dC",
@@ -25,7 +25,7 @@ lean_expression <- edata[9:30] #raw counts only for all the samples
 cts <- lean_expression[c(14:22)] #ARI counts at 3 dai, 4 dai and myc samples only, too few reads in 1 dai and 2 dai samples, so we drop them
 
 #sample table
-sample_table <- read.csv("/home/anna/anna/Labjournal/MarcAri/REP/turboARI/data/ARI_LILIsample_table.csv", header = T, row.names = 1) #TODO: remove paths!
+sample_table <- read.csv("sample_table.csv", header = T, row.names = 1) #TODO: remove paths!
 coldata <- sample_table[c(14:22),] #ARI sample table, 3-4 dai and myc samples only
 #put the variable of interest at the end of the formula, the control level is the first level.
 coldata$experiment <-factor(coldata$experiment, levels = c("myc", "in_planta")) 
@@ -68,7 +68,7 @@ resSig <- as.data.frame(subset(res_ordered, padj < 0.001 & abs(log2FoldChange) >
 # Merge with annotations
 annotation <- edata[c(1:8)]
 resSig_annotated <- merge(resSig, annotation, by = 'row.names') # suplementary table
-write.table(resSig_annotated, row.names = FALSE, "/home/anna/anna/Labjournal/Manuscripts/Marchantia_ARI_small_paper/particles/SuppTable_DESeq2_ARI_results.csv", quote = F, sep = '\t')
+write.table(resSig_annotated, row.names = FALSE, "SuppTable_DESeq2_ARI_results.csv", quote = F, sep = '\t')
 
 #5.-----
 # Plots for the figure
@@ -89,7 +89,7 @@ df
 #specify colors for the heatmap
 RowSideColors<-colorRampPalette(c("navy", "white", "chartreuse4"))(20)
 
-tiff("/home/anna/anna/Labjournal/Manuscripts/Marchantia_ARI_small_paper/PP_DEG_pheatmap.tiff", height=7, width=4, units='in', res=600)
+tiff("PP_DEG_pheatmap.tiff", height=7, width=4, units='in', res=600)
 pheatmap(my_mat, annotation_col=df,
          show_rownames = FALSE,
          cluster_cols = FALSE,
@@ -102,8 +102,10 @@ dev.off()
 #6.------
 #plot table with curated categories for the up-regulated secretome
 library(gridExtra)
-curated <- read.table("/home/anna/anna/Labjournal/Manuscripts/Marchantia_ARI_small_paper/particles/curated_up_secretome.csv", header = TRUE, sep = ',', check.names=FALSE)
-tiff("/home/anna/anna/Labjournal/Manuscripts/Marchantia_ARI_small_paper/PP_SECRETOME_CURATION.tiff", height=5, width=3, units='in', res=600)
+curated <- read.table("up_secretome_curated.csv", header = TRUE, sep = ',', check.names=FALSE)
+tiff("PP_Secretome_summary.tiff", height=5, width=3, units='in', res=600)
 grid.table(curated, rows = NULL)
 dev.off()
+
+
 
