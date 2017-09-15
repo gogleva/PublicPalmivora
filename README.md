@@ -1,6 +1,6 @@
 Reproducible scripts for (P. Carella et al) manuscript.
 
-Phytophthora palmivora establishes tissue-specific intracellular infection structures in the earliest divergent land plant lineage
+**Phytophthora palmivora establishes tissue-specific intracellular infection structures in the earliest divergent land plant lineage**
 
 Philip Carella, Anna Gogleva, Marta Tomaselli, Carolin Alfs, Sebastian Schornack
 
